@@ -8,8 +8,33 @@ public class Main {
 
     public static void main(String[] args) {
         Main app = new Main();
-        tui tui = new tui(app);
-        tui.menu();
+        tui tui = new tui();
+        while (true) {
+            switch (tui.menu()) {
+                case 1:
+                    app.crearcontacte();
+                    break;
+                case 2:
+                    app.buscarcontacte();
+                    break;
+                case 3:
+                    app.actucontact();
+                    break;
+                case 4:
+                    app.elimcontacte();
+                    break;
+                case 5:
+                    app.llistacontactes();
+                    break;
+                case 6:
+                    System.out.println("Sortint de l'aplicació...");
+                    System.exit(0);
+                    break;
+                default: // Opció no vàlida
+                    System.out.println("Opció no vàlida.");
+            }
+        }
+
     }
 
 

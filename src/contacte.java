@@ -1,4 +1,5 @@
-public class contacte {
+public class contacte
+{
     String nom;
     String tel;
     String email;
