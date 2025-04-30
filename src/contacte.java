@@ -10,7 +10,7 @@ public class contacte {
     }
 
     public String toString(){
-        return "Nom:"+nom+"Telèfon:"+tel+"Email:"+email;
+        return "Nom: "+nom+" Telèfon: "+tel+" Email: "+email;
     }
 
     public String getNom() {
