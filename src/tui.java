@@ -6,7 +6,6 @@ public class tui {
 
     public void ui(Main app) {
         this.app = app;
-
     }
     public void menu() {
         boolean cont = true;
