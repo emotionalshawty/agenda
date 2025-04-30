@@ -4,6 +4,8 @@ import java.util.Scanner;
 
 public class tui {
     public static void main(String[] args) {
+        System.out.println("Benvolgut a la teva agenda, esscull una opció");
+
         Scanner sc = new Scanner(System.in);
         ArrayList<contacte> Contactes = new ArrayList<>();
         boolean cont = true;
@@ -59,4 +61,5 @@ public class tui {
                 System.out.println("L'opció que has escollit no es valida, prova'n una altra");
         }
     }
+
 }
