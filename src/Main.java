@@ -72,10 +72,35 @@ public class Main {
 
         for (contacte c : Contactes) {
             if (c.getNom().equalsIgnoreCase(actu)) {
-                System.out.println("Posa el nou nom del contacte:");
-                String nouNom = sc.nextLine();
-                c.setNom(nouNom);
-                System.out.println("S'ha actualitzat el contacte a: " + nouNom);
+
+                System.out.println("Quin camp vols actualitzar?");
+                System.out.println("1. Nom");
+                System.out.println("2. Telèfon");
+                System.out.println("3. Correu electrònic");
+                System.out.print("Selecciona una opció: ");
+                int quin = sc.nextInt();
+                switch (quin) {
+                    case 1 -> {
+                        System.out.println("Posa el nou nom");
+                        String nouNom = sc.nextLine();
+                        c.setNom(nouNom);
+                        System.out.println("S'ha actualitzat el nom a " + nouNom);
+                    }
+                    case 2 -> {
+                        System.out.println("Posa el nou # de telèfon:");
+                        String nouTel = sc.nextLine();
+                        c.setTel(nouTel);
+                        System.out.println("El nou telèfon es" + nouTel);
+                    }
+                    case 3 -> {
+                        System.out.println("Quin serà el nou correu electrònic?");
+                        String nouEmail = sc.nextLine();
+                        c.setEmail(nouEmail);
+                        System.out.println("S'ha actualitzat al seguent nou correu: " + nouEmail);
+                    }
+                    default -> System.out.println("Opció no vàlida.");
+                }
+                sc.nextLine();
                 return;
             }
         }
