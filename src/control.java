@@ -48,6 +48,7 @@ public class control {
                 System.out.println("3. Correu electrònic");
                 System.out.print("Selecciona una opció: ");
                 int quin = sc.nextInt();
+                sc.nextLine();
                 switch (quin) {
                     case 1 -> {
                         System.out.println("Posa el nou nom");
@@ -69,7 +70,6 @@ public class control {
                     }
                     default -> System.out.println("Opció no vàlida.");
                 }
-                sc.nextLine();
                 return;
             }
         }
