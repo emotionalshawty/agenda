@@ -4,7 +4,7 @@ public class Main {
 
     public static void main(String[] args) {
         tui tui = new tui();
-        control app = new control(tui);
+        Control app = new Control(tui);
 
         while (true) {
             int opcio = app.menu();

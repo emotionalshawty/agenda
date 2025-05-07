@@ -2,11 +2,11 @@
 import java.util.ArrayList;
 
 
-public class control {
+public class Control {
     private ArrayList<contacte> Contactes = new ArrayList<>();
     private tui tui;
 
-    public control(tui tui) {
+    public Control(tui tui) {
         this.tui = tui;
     }
     public int menu(){
@@ -23,28 +23,46 @@ public class control {
 
     public void crearcontacte() {
         String nom = tui.leermsg("POsa el nom de la persona:");
+        String cognom = tui.leermsg("Posa el seu cognom:");
 
         String tel = tui.leermsg("Introdueix el seu número de telèfon:");
 
         String email = tui.leermsg("Quin correu electronic té? ");
 
-        contacte contactenou = new contacte(nom, tel, email);
+        contacte contactenou = new contacte(nom,cognom, tel, email);
         Contactes.add(contactenou);
 
         tui.showmsg("S'ha creat l'entrada de contacte de " + nom);
     }
 
     public void buscarcontacte() {
-        String busca = tui.leermsg("P0sa el nom del contacte que vols buscar");
+        int combuscar = tui.leerint("""
+                 DE quina manera vols buscar el contacte?
+                 1. Nom
+                 2. Cognom
+                 3. Telèfon
+                 4. Email\s
+                \s""");
 
 
-        for (contacte trobat : Contactes) {
-            if (trobat.getNom().equalsIgnoreCase(busca)) {
-                tui.showmsg("S'ha trobat: " + trobat);
+        String busca;
+        switch (combuscar) {
+            case 1 -> busca = tui.leermsg("Quin es el nom del contacte?");
+            case 2 -> busca = tui.leermsg("Quin cognom té el contacte?");
+            case 3 -> busca = tui.leermsg("Quin numero de telèfon té el contacte?");
+            case 4 -> busca = tui.leermsg("Quin email té?");
+            default -> {
+                tui.showmsg("No es pot buscar un contacte d'aquesta manera");
                 return;
             }
         }
-        tui.showmsg("No s'ha trobat a ninguna persona amb el nom de " + busca);
+        for (contacte trobat : Contactes) {
+            if ((combuscar == 1 && trobat.getNom().equalsIgnoreCase(busca)) || (combuscar == 2 && trobat.getCognom().equalsIgnoreCase(busca)) || (combuscar == 3 && trobat.getTel().equals(busca)) || (combuscar == 4 && trobat.getEmail().equalsIgnoreCase(busca))) {
+                tui.showmsg("S'ha trobat a: " + trobat);
+                return;
+            }
+            tui.showmsg("No s'ha trobat a ninguna persona amb el nom de " + busca);
+        }
     }
 
     public void actucontact() {
@@ -61,8 +79,7 @@ public class control {
                                 2. Telèfon
                                 3. Email
                                 Selecciona una opció:
-                                """
-                );
+                                """);
                 switch (quin) {
                     case 1 -> {
                         String nouNom = tui.leermsg("Posa el nou nom");
