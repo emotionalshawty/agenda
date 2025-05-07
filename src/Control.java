@@ -45,26 +45,36 @@ public class Control {
                  5. ID
                 \s""");
 
-
-        String busca;
-        switch (combuscar) {
+            int buscaid = -1;
+            String busca = null;
+            switch (combuscar) {
             case 1 -> busca = tui.leermsg("Quin es el nom del contacte?");
             case 2 -> busca = tui.leermsg("Quin cognom té el contacte?");
             case 3 -> busca = tui.leermsg("Quin numero de telèfon té el contacte?");
             case 4 -> busca = tui.leermsg("Quin email té?");
-            case 5 -> busca = tui.leermsg("Quin es el id del contacte?");
+            case 5 -> buscaid = tui.leerint("Quin es el id del contacte?");
             default -> {
                 tui.showmsg("No es pot buscar un contacte d'aquesta manera");
                 return;
             }
         }
         for (contacte trobat : Contactes) {
-            if ((combuscar == 1 && trobat.getNom().equalsIgnoreCase(busca)) || (combuscar == 2 && trobat.getCognom().equalsIgnoreCase(busca)) || (combuscar == 3 && trobat.getTel().equals(busca)) || (combuscar == 4 && trobat.getEmail().equalsIgnoreCase(busca))) {
+            boolean trobatContacte = switch (combuscar) {
+                case 1 -> trobat.getNom().equalsIgnoreCase(busca);
+                case 2 -> trobat.getCognom().equalsIgnoreCase(busca);
+                case 3 -> trobat.getTel().equals(busca);
+                case 4 -> trobat.getEmail().equalsIgnoreCase(busca);
+                case 5 -> trobat.getId() == buscaid;
+                default -> false;
+            };
+
+            if (trobatContacte) {
                 tui.showmsg("S'ha trobat a: " + trobat);
                 return;
             }
-            tui.showmsg("No s'ha trobat a ninguna persona amb el nom de " + busca);
         }
+
+        tui.showmsg("No s'ha trobat cap contacte amb el criteri proporcionat.");
     }
 
     public void actucontact() {
@@ -127,7 +137,7 @@ public class Control {
                 return;
             }
         }
-        tui.showmsg("No s'ha trobat un contacte que es digui " + actu);
+        tui.showmsg("No s'ha trobat cap contacte amb el criteri proporcionat.");
     }
 
     public void elimcontacte() {
@@ -140,14 +150,15 @@ public class Control {
                  5. ID
                 \s""");
 
-        String elim;
+        String supr = null;
+        int buscaid = -1;
 
         switch (combuscar) {
-            case 1 -> elim = tui.leermsg("Quin es el nom del contacte?");
-            case 2 -> elim = tui.leermsg("Quin cognom té el contacte?");
-            case 3 -> elim = tui.leermsg("Quin numero de telèfon té el contacte?");
-            case 4 -> elim = tui.leermsg("Quin email té?");
-            case 5 -> elim = tui.leermsg("Quin es el id del contacte?");
+            case 1 -> supr = tui.leermsg("Quin es el nom del contacte?");
+            case 2 -> supr = tui.leermsg("Quin cognom té el contacte?");
+            case 3 -> supr = tui.leermsg("Quin numero de telèfon té el contacte?");
+            case 4 -> supr = tui.leermsg("Quin email té?");
+            case 5 -> buscaid = tui.leerint("Quin es el id del contacte?");
             default -> {
                 tui.showmsg("No es pot buscar un contacte d'aquesta manera");
                 return;
@@ -156,13 +167,13 @@ public class Control {
 
 
         for (contacte c : Contactes) {
-            if (c.getNom().equalsIgnoreCase(elim)) {
+            if (c.getNom().equalsIgnoreCase(supr)) {
                 Contactes.remove(c);
-                tui.showmsg("S'ha esborrat la entrada de " + elim);
+                tui.showmsg("S'ha esborrat el contacte ");
                 return;
             }
         }
-        tui.showmsg("No s'ha trobat un contacte amb aquest nom.");
+        tui.showmsg("No s'ha trobat cap contacte amb el criteri proporcionat.");
     }
 
     public void llistacontactes() {
