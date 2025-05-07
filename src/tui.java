@@ -6,7 +6,19 @@ public class tui {
     public tui() {
 
     }
-
+    public void showmsg(String msg) {
+        System.out.println(msg);
+    }
+    public String leermsg(String msg) {
+        showmsg(msg);
+        return sc.nextLine();
+    }
+    public int leerint(String msg) {
+        showmsg(msg);
+        int numero = sc.nextInt();
+        sc.nextLine();
+        return numero;
+    }
     public int menu() {
         System.out.println("Benvingut a la teva agenda de contactes, que vols fer?");
         System.out.println("\n1. Crear contacte");

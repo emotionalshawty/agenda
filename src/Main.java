@@ -6,7 +6,7 @@ public class Main {
 
 
     public static void main(String[] args) {
-        control app = new control();
+        control app = new control(tui);
         tui tui = new tui();
         while (true) {
             int opcio = tui.menu();

@@ -1,20 +1,21 @@
-import java.util.Scanner;
+
 import java.util.ArrayList;
 
 
 public class control {
-    Scanner sc = new Scanner(System.in);
     private ArrayList<contacte> Contactes = new ArrayList<>();
+    private tui tui;
+
+    public control(tui tui) {
+        this.tui = tui;
+    }
 
     public void crearcontacte() {
-        System.out.println("POsa el nom de la persona:");
-        String nom = sc.nextLine();
+        String nom = tui.leermsg("POsa el nom de la persona:");
 
-        System.out.println("Introdueix el seu número de telèfon:");
-        String tel = sc.nextLine();
+        String tel = tui.leermsg("Introdueix el seu número de telèfon:");
 
-        System.out.println("Quin correu electronic té? ");
-        String email = sc.nextLine();
+        String email = tui.leermsg("Quin correu electronic té? ");
 
         contacte contactenou = new contacte(nom, tel, email);
         Contactes.add(contactenou);
@@ -24,11 +25,11 @@ public class control {
 
     public void buscarcontacte() {
         System.out.println("P0sa el nom del contacte que vols buscar");
-        String busca = sc.nextLine();
+
 
         for (contacte trobat : Contactes) {
             if (trobat.getNom().equalsIgnoreCase(busca)) {
-                System.out.println("S'ha trobat: " + trobat);
+                tui.showmsg("S'ha trobat: " + trobat);
                 return;
             }
         }
