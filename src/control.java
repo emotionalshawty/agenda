@@ -9,6 +9,17 @@ public class control {
     public control(tui tui) {
         this.tui = tui;
     }
+    public int menu(){
+        tui.showmsg("Benvingut a la teva agenda de contactes, que vols fer?");
+        tui.showmsg("\n1. Crear contacte");
+        tui.showmsg("2. Buscar contacte");
+        tui.showmsg("3. Actualitzar contacte");
+        tui.showmsg("4. Eliminar contacte");
+        tui.showmsg("5. Llistar els contactes");
+        tui.showmsg("6. Sortir");
+
+        return tui.leerint("Selecciona una opció: ");
+    }
 
     public void crearcontacte() {
         String nom = tui.leermsg("POsa el nom de la persona:");
@@ -20,11 +31,11 @@ public class control {
         contacte contactenou = new contacte(nom, tel, email);
         Contactes.add(contactenou);
 
-        System.out.println("S'ha creat l'entrada de contacte de " + nom);
+        tui.showmsg("S'ha creat l'entrada de contacte de " + nom);
     }
 
     public void buscarcontacte() {
-        System.out.println("P0sa el nom del contacte que vols buscar");
+        String busca = tui.leermsg("P0sa el nom del contacte que vols buscar");
 
 
         for (contacte trobat : Contactes) {
@@ -33,73 +44,82 @@ public class control {
                 return;
             }
         }
-        System.out.println("No s'ha trobat a ninguna persona amb el nom de " + busca);
+        tui.showmsg("No s'ha trobat a ninguna persona amb el nom de " + busca);
     }
 
     public void actucontact() {
-        System.out.println("Qiun es el nom del contacte que vols actualitzar?");
-        String actu = sc.nextLine();
+        String actu = tui.leermsg("Qiun es el nom del contacte que vols actualitzar?");
+
 
         for (contacte c : Contactes) {
             if (c.getNom().equalsIgnoreCase(actu)) {
 
-                System.out.println("Quin camp vols actualitzar?");
-                System.out.println("1. Nom");
-                System.out.println("2. Telèfon");
-                System.out.println("3. Correu electrònic");
-                System.out.print("Selecciona una opció: ");
-                int quin = sc.nextInt();
-                sc.nextLine();
+                int quin = tui.leerint(
+                               """
+                               Quin camp vols actualitzar?
+                                1. Nom
+                                2. Telèfon
+                                3. Email
+                                Selecciona una opció:
+                                """
+                );
                 switch (quin) {
                     case 1 -> {
-                        System.out.println("Posa el nou nom");
-                        String nouNom = sc.nextLine();
+                        String nouNom = tui.leermsg("Posa el nou nom");
+
                         c.setNom(nouNom);
-                        System.out.println("S'ha actualitzat el nom a " + nouNom);
+                        tui.showmsg("S'ha actualitzat el nom a " + nouNom);
                     }
                     case 2 -> {
-                        System.out.println("Posa el nou # de telèfon:");
-                        String nouTel = sc.nextLine();
+                        String nouTel = tui.leermsg("Posa el nou # de telèfon:");
+
                         c.setTel(nouTel);
-                        System.out.println("El nou telèfon es" + nouTel);
+                        tui.showmsg("El nou telèfon es: " + nouTel);
                     }
                     case 3 -> {
-                        System.out.println("Quin serà el nou correu electrònic?");
-                        String nouEmail = sc.nextLine();
+                        String nouEmail = tui.leermsg("Quin serà el nou correu electrònic?");
+
                         c.setEmail(nouEmail);
-                        System.out.println("S'ha actualitzat al seguent nou correu: " + nouEmail);
+                        tui.showmsg("S'ha actualitzat al seguent nou correu: " + nouEmail);
                     }
-                    default -> System.out.println("Opció no vàlida.");
+                    default -> tui.showmsg("Opció no vàlida.");
                 }
                 return;
             }
         }
-        System.out.println("No s'ha trobat un contacte que es digui " + actu);
+        tui.showmsg("No s'ha trobat un contacte que es digui " + actu);
     }
 
     public void elimcontacte() {
-        System.out.println("Posa el nom del contacte que vols esborrar:");
-        String esbor = sc.nextLine();
+        String esbor = tui.leermsg("Posa el nom del contacte que vols esborrar:");
+
 
         for (contacte c : Contactes) {
             if (c.getNom().equalsIgnoreCase(esbor)) {
                 Contactes.remove(c);
-                System.out.println("S'ha esborrat la entrada de " + esbor);
+                tui.showmsg("S'ha esborrat la entrada de " + esbor);
                 return;
             }
         }
-        System.out.println("No s'ha trobat un contacte amb aquest nom.");
+        tui.showmsg("No s'ha trobat un contacte amb aquest nom.");
     }
 
     public void llistacontactes() {
-        System.out.println("\n== LLISTAT DE CONTACTES ==");
+        tui.showmsg("\n== LLISTAT DE CONTACTES ==");
         if (Contactes.isEmpty()) {
-            System.out.println("No hi ha ningun contacte a la llista.");
+            tui.showmsg("No hi ha ningun contacte a la llista.");
             return;
         }
 
         for (int i = 0; i < Contactes.size(); i++) {
             System.out.println((i + 1) + ". " + Contactes.get(i));
         }
+    }
+    public void exit() {
+        tui.showmsg("Estàs sortint de l'aplicació");
+        System.exit(0);
+    }
+    public void invalid() {
+        tui.showmsg("L'opció que has escollit no es valida, prova de nou");
     }
 }

@@ -1,15 +1,13 @@
-import java.util.ArrayList;
-import java.util.Scanner;
-
 
 public class Main {
 
 
     public static void main(String[] args) {
-        control app = new control(tui);
         tui tui = new tui();
+        control app = new control(tui);
+
         while (true) {
-            int opcio = tui.menu();
+            int opcio = app.menu();
             switch (opcio) {
                 case 1:
                     app.crearcontacte();
@@ -27,11 +25,10 @@ public class Main {
                     app.llistacontactes();
                     break;
                 case 6:
-                    System.out.println("Estàs sortint de l'aplicació");
-                    System.exit(0);
+                    app.exit();
                     break;
                 default:
-                    System.out.println("No has escollit una opció valida");
+                    app.invalid();
             }
         }
 
