@@ -66,7 +66,26 @@ public class Control {
     }
 
     public void actucontact() {
-        String actu = tui.leermsg("Qiun es el nom del contacte que vols actualitzar?");
+        int combuscar = tui.leerint("""
+                 DE quina manera vols buscar el contacte?
+                 1. Nom
+                 2. Cognom
+                 3. Telèfon
+                 4. Email\s
+                \s""");
+
+        String actu;
+
+        switch (combuscar) {
+            case 1 -> actu = tui.leermsg("Quin es el nom del contacte?");
+            case 2 -> actu = tui.leermsg("Quin cognom té el contacte?");
+            case 3 -> actu = tui.leermsg("Quin numero de telèfon té el contacte?");
+            case 4 -> actu = tui.leermsg("Quin email té?");
+            default -> {
+                tui.showmsg("No es pot buscar un contacte d'aquesta manera");
+                return;
+            }
+        }
 
 
         for (contacte c : Contactes) {
