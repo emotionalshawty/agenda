@@ -128,8 +128,8 @@ public class Control {
             return;
         }
 
-        for (int i = 0; i < Contactes.size(); i++) {
-            System.out.println((i + 1) + ". " + Contactes.get(i));
+        for (contacte c : Contactes) {
+            tui.showmsg(c.toString());
         }
     }
     public void exit() {

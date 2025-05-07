@@ -1,19 +1,23 @@
-public class contacte
-{
+public class contacte {
+    static int idcontador = 1;
+    int id;
     String nom;
     String cognom;
     String tel;
     String email;
 
     public contacte(String nom, String cognom, String tel, String email) {
+        this.id = idcontador++;
         this.nom = nom;
         this.cognom = cognom;
         this.tel = tel;
         this.email = email;
     }
-
+    public int getId() {
+        return id;
+    }
     public String toString(){
-        return "Nom: "+nom+ " Cognom: "+cognom+" Telèfon: "+tel+" Email: "+email;
+        return "ID: "+id+" Nom: "+nom+ " Cognom: "+cognom+" Telèfon: "+tel+" Email: "+email;
     }
 
     public String getNom() {
