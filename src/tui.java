@@ -32,7 +32,7 @@ public class tui {
         sc.nextLine();
         return opcio;
 
-        // tui solo que tiene print y scanner, hacer que solo tui tenga print y scanner, tui y control estan raros, hacer que main sea el "gestor" de comunicacion entre los 2
+        //TODO ESTO NO ES VALIDO, IR A MASTER
     }
 
 }
