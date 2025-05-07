@@ -41,7 +41,8 @@ public class Control {
                  1. Nom
                  2. Cognom
                  3. Telèfon
-                 4. Email\s
+                 4. Email
+                 5. ID
                 \s""");
 
 
@@ -51,6 +52,7 @@ public class Control {
             case 2 -> busca = tui.leermsg("Quin cognom té el contacte?");
             case 3 -> busca = tui.leermsg("Quin numero de telèfon té el contacte?");
             case 4 -> busca = tui.leermsg("Quin email té?");
+            case 5 -> busca = tui.leermsg("Quin es el id del contacte?");
             default -> {
                 tui.showmsg("No es pot buscar un contacte d'aquesta manera");
                 return;
@@ -71,7 +73,8 @@ public class Control {
                  1. Nom
                  2. Cognom
                  3. Telèfon
-                 4. Email\s
+                 4. Email
+                 5. ID
                 \s""");
 
         String actu;
@@ -81,6 +84,7 @@ public class Control {
             case 2 -> actu = tui.leermsg("Quin cognom té el contacte?");
             case 3 -> actu = tui.leermsg("Quin numero de telèfon té el contacte?");
             case 4 -> actu = tui.leermsg("Quin email té?");
+            case 5 -> actu = tui.leermsg("Quin es el id del contacte?");
             default -> {
                 tui.showmsg("No es pot buscar un contacte d'aquesta manera");
                 return;
@@ -127,13 +131,34 @@ public class Control {
     }
 
     public void elimcontacte() {
-        String esbor = tui.leermsg("Posa el nom del contacte que vols esborrar:");
+        int combuscar = tui.leerint("""
+                 DE quina manera vols buscar el contacte?
+                 1. Nom
+                 2. Cognom
+                 3. Telèfon
+                 4. Email
+                 5. ID
+                \s""");
+
+        String elim;
+
+        switch (combuscar) {
+            case 1 -> elim = tui.leermsg("Quin es el nom del contacte?");
+            case 2 -> elim = tui.leermsg("Quin cognom té el contacte?");
+            case 3 -> elim = tui.leermsg("Quin numero de telèfon té el contacte?");
+            case 4 -> elim = tui.leermsg("Quin email té?");
+            case 5 -> elim = tui.leermsg("Quin es el id del contacte?");
+            default -> {
+                tui.showmsg("No es pot buscar un contacte d'aquesta manera");
+                return;
+            }
+        }
 
 
         for (contacte c : Contactes) {
-            if (c.getNom().equalsIgnoreCase(esbor)) {
+            if (c.getNom().equalsIgnoreCase(elim)) {
                 Contactes.remove(c);
-                tui.showmsg("S'ha esborrat la entrada de " + esbor);
+                tui.showmsg("S'ha esborrat la entrada de " + elim);
                 return;
             }
         }
@@ -143,7 +168,7 @@ public class Control {
     public void llistacontactes() {
         tui.showmsg("\n== LLISTAT DE CONTACTES ==");
         if (Contactes.isEmpty()) {
-            tui.showmsg("No hi ha ningun contacte a la llista.");
+            tui.showmsg("No hi ha cap contacte guardat.");
             return;
         }
 
