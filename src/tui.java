@@ -158,7 +158,7 @@ public class tui {
 
 
     public String eliminat() {
-        return "S'ha esborraty el contacte";
+        return "S'ha esborraty el contacte ";
     }
 
     public String llistat() {

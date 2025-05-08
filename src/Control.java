@@ -1,12 +1,11 @@
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 
 
 public class Control {
-    private ArrayList<contacte> Contactes = new ArrayList<>();
-
-
-
+    private HashMap<Integer, contacte> Contactes = new HashMap<>();
 
     public Control() {
 
@@ -14,24 +13,28 @@ public class Control {
 
     // menu de contactos
     public ArrayList<contacte> getContactes() {
-        return Contactes;
+        return new ArrayList<>(Contactes.values());
     }
 
     public void crearcontacte(String nom, String cognom, String tel, String email) {
         contacte contactenou = new contacte(nom, cognom, tel, email);
-        Contactes.add(contactenou);
-
-
+        // Use contact ID as key in HashMap
+        Contactes.put(contactenou.getId(), contactenou);
     }
 
     public contacte buscarcontacte(int combuscar, String busca, int buscarid) {
-        for (contacte trobat : Contactes) {
+        // For ID search, we can directly look up in the HashMap
+        if (combuscar == 5) {
+            return Contactes.get(buscarid);
+        }
+
+        // For other search criteria, we need to iterate through values
+        for (contacte trobat : Contactes.values()) {
             boolean trobatContacte = switch (combuscar) {
                 case 1 -> trobat.getNom().equalsIgnoreCase(busca);
                 case 2 -> trobat.getCognom().equalsIgnoreCase(busca);
                 case 3 -> trobat.getTel().equals(busca);
                 case 4 -> trobat.getEmail().equalsIgnoreCase(busca);
-                case 5 -> trobat.getId() == buscarid;
                 default -> false;
             };
 
@@ -59,19 +62,13 @@ public class Control {
     }
 
     public boolean elimcontacte(int combuscar, String supr, int buscarid) {
-        for (contacte c : Contactes) {
-            boolean contactetrobat = switch (combuscar) {
-                case 1 -> c.getNom().equalsIgnoreCase(supr);
-                case 2 -> c.getCognom().equalsIgnoreCase(supr);
-                case 3 -> c.getTel().equals(supr);
-                case 4 -> c.getEmail().equalsIgnoreCase(supr);
-                case 5 -> c.getId() == buscarid;
-                default -> false;
-            };
-            if (contactetrobat) {
-                Contactes.remove(c);
-                return true;
-            }
+        // Find the contact first
+        contacte contacteToDelete = buscarcontacte(combuscar, supr, buscarid);
+
+        // If found, remove it from HashMap using its ID
+        if (contacteToDelete != null) {
+            Contactes.remove(contacteToDelete.getId());
+            return true;
         }
         return false;
     }
