@@ -41,11 +41,11 @@ public class tui {
 
 
     public String notrobat() {
-        return "No s'ha trobat cap contacte amb el criteri que has proporcionat.";
+        return "NO es pot buscar un contacte d'aquesta manera";
     }
 
     public String exit() {
-        return "Sortint de l'aplicació...";
+        return "Estas sortint de l'agenda";
     }
 
     public String solnom() {
@@ -65,7 +65,7 @@ public class tui {
     }
 
     public String creat() {
-        return "S'ha creat l'entrada de contacte de ";
+        return "S'ha creat l'entrada per a ";
     }
 
     public String combuscar() {
@@ -80,11 +80,11 @@ public class tui {
     }
 
     public String buscanom() {
-        return "Quin es el nom del contacte?";
+        return "COm es diu el contacte?";
     }
 
     public String buscacognom() {
-        return "Quin cognom té el contacte?";
+        return "Quin cognom té?";
     }
 
     public String buscatel() {
@@ -119,7 +119,7 @@ public class tui {
     }
 
     public String posnom() {
-        return "Posa el nou nom";
+        return "POsa el nou nom";
     }
 
     public String poscognom() {
@@ -127,16 +127,16 @@ public class tui {
     }
 
     public String postel() {
-        return "Posa el nou # de telèfon:";
+        return "Posa el nou # de telèfon";
     }
 
     public String posemail() {
-        return "Quin serà el nou correu electrònic?";
+        return "Quin sera elnou correu electrònic?";
     }
 
 
     public String nounom() {
-        return "S'ha actualitzat el nom a ";
+        return "EL nom nou de la persona es: ";
     }
 
     public String noucognom() {
@@ -144,7 +144,7 @@ public class tui {
     }
 
     public String nouemail() {
-        return "S'ha actualitzat el email a ";
+        return "El nou email es: ";
     }
 
     public String nouTel() {
