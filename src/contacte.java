@@ -15,9 +15,14 @@ public class contacte {
         this.cognom = cognom;
         this.tel = tel;
         this.email = email;
-        String datos = "ID: "+ id + "Nom: "+ nom + "Cognom: "+cognom+ "Telefono"+tel+ "Email: "+email;
+        String datos = "ID: "+ id +
+                " Nom: "+ nom +
+                " Cognom: "+cognom+
+                " Telefono: "+tel+
+                " Email: "+email;
+        String id = "Contacto_" +nom+".txt";
         try {
-            FileWriter file = new FileWriter("Contactos.txt");
+            FileWriter file = new FileWriter(id);
             file.write(datos);
             file.close();
         } catch (IOException e) {
