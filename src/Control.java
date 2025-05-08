@@ -10,51 +10,37 @@ public class Control {
         this.tui = tui;
     }
     public int menu(){
-        tui.showmsg("Benvingut a la teva agenda de contactes, que vols fer?");
-        tui.showmsg("\n1. Crear contacte");
-        tui.showmsg("2. Buscar contacte");
-        tui.showmsg("3. Actualitzar contacte");
-        tui.showmsg("4. Eliminar contacte");
-        tui.showmsg("5. Llistar els contactes");
-        tui.showmsg("6. Sortir");
-
-        return tui.leerint("Selecciona una opció: ");
+        tui.showmsg(tui.menu());
+        return tui.leerint(tui.select());
     }
 
     public void crearcontacte() {
-        String nom = tui.leermsg("POsa el nom de la persona:");
-        String cognom = tui.leermsg("Posa el seu cognom:");
+        String nom = tui.leermsg(tui.solnom());
+        String cognom = tui.leermsg(tui.solcognom());
 
-        String tel = tui.leermsg("Introdueix el seu número de telèfon:");
+        String tel = tui.leermsg(tui.soltel());
 
-        String email = tui.leermsg("Quin correu electronic té? ");
+        String email = tui.leermsg(tui.solemail());
 
         contacte contactenou = new contacte(nom,cognom, tel, email);
         Contactes.add(contactenou);
 
-        tui.showmsg("S'ha creat l'entrada de contacte de " + nom);
+        tui.showmsg(tui.creat() + nom);
     }
 
     public void buscarcontacte() {
-        int combuscar = tui.leerint("""
-                 DE quina manera vols buscar el contacte?
-                 1. Nom
-                 2. Cognom
-                 3. Telèfon
-                 4. Email
-                 5. ID
-                \s""");
+        int combuscar = tui.leerint(tui.combuscar());
 
-            int buscaid = -1;
+            int buscarid = -1;
             String busca = null;
             switch (combuscar) {
-            case 1 -> busca = tui.leermsg("Quin es el nom del contacte?");
-            case 2 -> busca = tui.leermsg("Quin cognom té el contacte?");
-            case 3 -> busca = tui.leermsg("Quin numero de telèfon té el contacte?");
-            case 4 -> busca = tui.leermsg("Quin email té?");
-            case 5 -> buscaid = tui.leerint("Quin es el id del contacte?");
+            case 1 -> busca = tui.leermsg(tui.buscanom());
+            case 2 -> busca = tui.leermsg(tui.buscacognom());
+            case 3 -> busca = tui.leermsg(tui.buscatel());
+            case 4 -> busca = tui.leermsg(tui.buscaemail());
+            case 5 -> buscarid = tui.leerint(tui.buscaid());
             default -> {
-                tui.showmsg("No es pot buscar un contacte d'aquesta manera");
+                tui.showmsg(tui.cantsearch());
                 return;
             }
         }
@@ -64,122 +50,121 @@ public class Control {
                 case 2 -> trobat.getCognom().equalsIgnoreCase(busca);
                 case 3 -> trobat.getTel().equals(busca);
                 case 4 -> trobat.getEmail().equalsIgnoreCase(busca);
-                case 5 -> trobat.getId() == buscaid;
+                case 5 -> trobat.getId() == buscarid;
                 default -> false;
             };
 
             if (trobatContacte) {
-                tui.showmsg("S'ha trobat a: " + trobat);
+                tui.showmsg(tui.trobat() + trobat);
                 return;
             }
         }
 
-        tui.showmsg("No s'ha trobat cap contacte amb el criteri proporcionat.");
+        tui.showmsg(tui.notrobat());
     }
 
     public void actucontact() {
-        int combuscar = tui.leerint("""
-                 DE quina manera vols buscar el contacte?
-                 1. Nom
-                 2. Cognom
-                 3. Telèfon
-                 4. Email
-                 5. ID
-                \s""");
+        int combuscar = tui.leerint(tui.combuscar());
 
-        String actu;
+        int buscarid = -1;
+        String actu = null;
 
         switch (combuscar) {
-            case 1 -> actu = tui.leermsg("Quin es el nom del contacte?");
-            case 2 -> actu = tui.leermsg("Quin cognom té el contacte?");
-            case 3 -> actu = tui.leermsg("Quin numero de telèfon té el contacte?");
-            case 4 -> actu = tui.leermsg("Quin email té?");
-            case 5 -> actu = tui.leermsg("Quin es el id del contacte?");
+            case 1 -> actu = tui.leermsg(tui.buscanom());
+            case 2 -> actu = tui.leermsg(tui.buscacognom());
+            case 3 -> actu = tui.leermsg(tui.buscatel());
+            case 4 -> actu = tui.leermsg(tui.buscaemail());
+            case 5 -> buscarid = tui.leerint(tui.buscaid());
             default -> {
-                tui.showmsg("No es pot buscar un contacte d'aquesta manera");
+                tui.showmsg(tui.cantsearch());
                 return;
             }
         }
 
 
         for (contacte c : Contactes) {
-            if (c.getNom().equalsIgnoreCase(actu)) {
+            boolean contactetrobat = switch (combuscar) {
+                case 1 -> c.getNom().equalsIgnoreCase(actu);
+                case 2 -> c.getCognom().equalsIgnoreCase(actu);
+                case 3 -> c.getTel().equals(actu);
+                case 4 -> c.getEmail().equalsIgnoreCase(actu);
+                case 5 -> c.getId() == buscarid;
+                default -> false;
+            };
 
-                int quin = tui.leerint(
-                               """
-                               Quin camp vols actualitzar?
-                                1. Nom
-                                2. Telèfon
-                                3. Email
-                                Selecciona una opció:
-                                """);
+            if (contactetrobat) {
+                int quin = tui.leerint(tui.queactu());
                 switch (quin) {
                     case 1 -> {
-                        String nouNom = tui.leermsg("Posa el nou nom");
-
+                        String nouNom = tui.leermsg(tui.posnom());
                         c.setNom(nouNom);
-                        tui.showmsg("S'ha actualitzat el nom a " + nouNom);
+                        tui.showmsg(tui.nounom() + nouNom);
                     }
                     case 2 -> {
-                        String nouTel = tui.leermsg("Posa el nou # de telèfon:");
-
-                        c.setTel(nouTel);
-                        tui.showmsg("El nou telèfon es: " + nouTel);
+                        String nouCognom = tui.leermsg(tui.poscognom());
+                        c.setCognom(nouCognom);
+                        tui.showmsg(tui.noucognom() + nouCognom);
                     }
                     case 3 -> {
-                        String nouEmail = tui.leermsg("Quin serà el nou correu electrònic?");
-
-                        c.setEmail(nouEmail);
-                        tui.showmsg("S'ha actualitzat al seguent nou correu: " + nouEmail);
+                        String nouTel = tui.leermsg(tui.postel());
+                        c.setTel(nouTel);
+                        tui.showmsg(tui.nouTel() + nouTel);
                     }
-                    default -> tui.showmsg("Opció no vàlida.");
+                    case 4 -> {
+                        String nouEmail = tui.leermsg(tui.posemail());
+                        c.setEmail(nouEmail);
+                        tui.showmsg(tui.nouemail() + nouEmail);
+                    }
+                    default -> tui.showmsg(tui.invalid());
                 }
                 return;
             }
         }
-        tui.showmsg("No s'ha trobat cap contacte amb el criteri proporcionat.");
+        tui.showmsg(tui.notrobat());
     }
 
     public void elimcontacte() {
-        int combuscar = tui.leerint("""
-                 DE quina manera vols buscar el contacte?
-                 1. Nom
-                 2. Cognom
-                 3. Telèfon
-                 4. Email
-                 5. ID
-                \s""");
+        int combuscar = tui.leerint(tui.combuscar());
 
+        int buscarid = -1;
         String supr = null;
-        int buscaid = -1;
+
 
         switch (combuscar) {
-            case 1 -> supr = tui.leermsg("Quin es el nom del contacte?");
-            case 2 -> supr = tui.leermsg("Quin cognom té el contacte?");
-            case 3 -> supr = tui.leermsg("Quin numero de telèfon té el contacte?");
-            case 4 -> supr = tui.leermsg("Quin email té?");
-            case 5 -> buscaid = tui.leerint("Quin es el id del contacte?");
+            case 1 -> supr = tui.leermsg(tui.buscanom());
+            case 2 -> supr = tui.leermsg(tui.buscacognom());
+            case 3 -> supr = tui.leermsg(tui.buscatel());
+            case 4 -> supr = tui.leermsg(tui.buscaemail());
+            case 5 -> buscarid = tui.leerint(tui.buscaid());
             default -> {
-                tui.showmsg("No es pot buscar un contacte d'aquesta manera");
+                tui.showmsg(tui.cantsearch());
                 return;
             }
         }
 
 
         for (contacte c : Contactes) {
-            if (c.getNom().equalsIgnoreCase(supr)) {
+            boolean contactetrobat = switch (combuscar) {
+                case 1 -> c.getNom().equalsIgnoreCase(supr);
+                case 2 -> c.getCognom().equalsIgnoreCase(supr);
+                case 3 -> c.getTel().equals(supr);
+                case 4 -> c.getEmail().equalsIgnoreCase(supr);
+                case 5 -> c.getId() == buscarid;
+                default -> false;
+            };
+            if (contactetrobat) {
                 Contactes.remove(c);
-                tui.showmsg("S'ha esborrat el contacte ");
+                tui.showmsg(tui.eliminat() + c.getNom());
                 return;
             }
         }
-        tui.showmsg("No s'ha trobat cap contacte amb el criteri proporcionat.");
+        tui.showmsg(tui.notrobat());
     }
 
     public void llistacontactes() {
-        tui.showmsg("\n== LLISTAT DE CONTACTES ==");
+        tui.showmsg(tui.llistat());
         if (Contactes.isEmpty()) {
-            tui.showmsg("No hi ha cap contacte guardat.");
+            tui.showmsg(tui.res());
             return;
         }
 
@@ -188,10 +173,10 @@ public class Control {
         }
     }
     public void exit() {
-        tui.showmsg("Estàs sortint de l'aplicació");
+        tui.showmsg(tui.exit());
         System.exit(0);
     }
     public void invalid() {
-        tui.showmsg("L'opció que has escollit no es valida, prova de nou");
+        tui.showmsg(tui.invalidtryagain());
     }
 }
