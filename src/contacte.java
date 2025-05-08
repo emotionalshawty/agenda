@@ -1,3 +1,6 @@
+import java.io.FileWriter;
+import java.io.IOException;
+
 public class contacte {
     static int idcontador = 1;
     int id;
@@ -12,6 +15,20 @@ public class contacte {
         this.cognom = cognom;
         this.tel = tel;
         this.email = email;
+        String datos = "ID: "+ id +
+                " Nom: "+ nom +
+                " Cognom: "+cognom+
+                " Telefono: "+tel+
+                " Email: "+email;
+        String id = "Contacto_" +nom+".txt";
+        try {
+            FileWriter file = new FileWriter(id);
+            file.write(datos);
+            file.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
     }
     public int getId() {
         return id;
