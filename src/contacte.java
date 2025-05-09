@@ -1,4 +1,5 @@
 import java.io.FileWriter;
+import java.io.File;
 import java.io.IOException;
 
 public class contacte {
@@ -15,20 +16,53 @@ public class contacte {
         this.cognom = cognom;
         this.tel = tel;
         this.email = email;
-        String datos = "ID: "+ id +
-                " Nom: "+ nom +
-                " Cognom: "+cognom+
-                " Telefono: "+tel+
-                " Email: "+email;
-        String id = "Contacto_" +nom+".txt";
+        guardacontact();
+    }
+
+    public contacte(int id, String nom, String cognom, String tel, String email, boolean saveFile) {
+        this.id = id;
+        this.nom = nom;
+        this.cognom = cognom;
+        this.tel = tel;
+        this.email = email;
+        if (saveFile) {
+            guardacontact();
+        }
+    }
+
+    public static void resetid() {
+        idcontador = 1;
+    }
+
+
+    public static void actuid(int loadedId) {
+        if (loadedId >= idcontador) {
+            idcontador = loadedId + 1;
+        }
+    }
+
+
+    private void guardacontact() {
+        String datos = id + "\n" + nom + "\n" + cognom + "\n" + tel + "\n" + email;
+        String fileName = "Contacto - " + nom + ".txt";
         try {
-            FileWriter file = new FileWriter(id);
+            FileWriter file = new FileWriter(fileName);
             file.write(datos);
             file.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
 
+
+
+
+    public void borracontact() {
+        String fileName = "Contacto - " + nom + ".txt";
+        File file = new File(fileName);
+        if (file.exists()) {
+            file.delete();
+        }
     }
     public int getId() {
         return id;
