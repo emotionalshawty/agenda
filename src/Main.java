@@ -132,7 +132,9 @@ public class Main {
                     if (app.getContactes().isEmpty()) {
                         tui.showmsg(tui.res());
                     } else {
+
                         for (Contacte c : app.getContactes().values()) {
+
                             tui.showmsg(c.toString());
                         }
                     }

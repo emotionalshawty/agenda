@@ -1,6 +1,7 @@
 import java.util.HashMap;
 
 public class Control {
+
     private HashMap<Integer, Contacte> Contactes = new HashMap<>();
     private FileController fileController;
 
@@ -29,6 +30,7 @@ public class Control {
 
         // si se utiliza otras cosas que no sea id
         for (Contacte trobat : Contactes.values()) {
+
             boolean trobatContacte = switch (combuscar) {
                 case 1 -> trobat.getNom().equalsIgnoreCase(busca);
                 case 2 -> trobat.getCognom().equalsIgnoreCase(busca);
@@ -65,13 +67,20 @@ public class Control {
     }
 
     public boolean elimcontacte(int combuscar, String supr, int buscarid) {
+
         Contacte quinborrar = buscarcontacte(combuscar, supr, buscarid);
 
         if (quinborrar != null) {
              fileController.esborcontacte(quinborrar.getNom());
             Contactes.remove(quinborrar.getId());
+
+       
             return true;
         }
         return false;
+    }
+
+    public HashMap<Integer, contacte> getContactes() {
+        return contactes;
     }
 }
