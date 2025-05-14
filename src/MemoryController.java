@@ -5,6 +5,7 @@ public class MemoryController {
     private HashMap<Integer, Contacte> Contactes = new HashMap<>();
     private FileController fileController;
 
+    // controlador memoria, lo carga todo
     public MemoryController() {
         fileController = new FileController();
         Contactes = fileController.loadAllContacts();
@@ -27,31 +28,32 @@ public class MemoryController {
         if (combuscar == 5) {
             return Contactes.get(buscarid);
         }
-
+        // si no buscamos con id
         for (Contacte c : Contactes.values()) {
             switch (combuscar) {
-                case 1:
+                case 1:  // busca con nombre
                     if (c.getNom().equalsIgnoreCase(busca)) {
                         return c;
                     }
                     break;
-                case 2:
+                case 2: // busca con apellido
                     if (c.getCognom().equalsIgnoreCase(busca)) {
                         return c;
                     }
                     break;
-                case 3:
+                case 3:  // busca x telefono
                     if (c.getTel().equalsIgnoreCase(busca)) {
                         return c;
                     }
                     break;
-                case 4:
+                case 4:  // busca x mail
                     if (c.getEmail().equalsIgnoreCase(busca)) {
                         return c;
                     }
                     break;
             }
         }
+        // no hay nada
         return null;
     }
 
