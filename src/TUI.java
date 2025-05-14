@@ -1,9 +1,9 @@
 import java.util.Scanner;
 
-public class tui {
+public class TUI {
     Scanner sc = new Scanner(System.in);
 
-    public tui() {
+    public TUI() {
 
     }
 

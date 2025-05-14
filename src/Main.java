@@ -3,7 +3,7 @@ public class Main {
 
 
     public static void main(String[] args) {
-        tui tui = new tui();
+        TUI tui = new TUI();
         Control app = new Control();
 
         while (true) {
@@ -39,7 +39,7 @@ public class Main {
                         }
                     }
 
-                    contacte trobat = app.buscarcontacte(combuscar, busca, buscarid);
+                    Contacte trobat = app.buscarcontacte(combuscar, busca, buscarid);
                     if (trobat != null) {
                         tui.showmsg(tui.trobat() + trobat);
                     } else {
@@ -114,7 +114,7 @@ public class Main {
                         }
                     }
 
-                    contacte contacteToDelete = app.buscarcontacte(combuscar, supr, buscarid);
+                    Contacte contacteToDelete = app.buscarcontacte(combuscar, supr, buscarid);
                     if (contacteToDelete != null) {
                         String nomElim = contacteToDelete.getNom();
                         if (app.elimcontacte(combuscar, supr, buscarid)) {
@@ -132,7 +132,7 @@ public class Main {
                     if (app.getContactes().isEmpty()) {
                         tui.showmsg(tui.res());
                     } else {
-                        for (contacte c : app.getContactes()) {
+                        for (Contacte c : app.getContactes().values()) {
                             tui.showmsg(c.toString());
                         }
                     }

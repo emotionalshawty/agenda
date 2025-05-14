@@ -1,8 +1,4 @@
-import java.io.FileWriter;
-import java.io.File;
-import java.io.IOException;
-
-public class contacte {
+public class Contacte {
     static int idcontador = 1;
     int id;
     String nom;
@@ -10,25 +6,23 @@ public class contacte {
     String tel;
     String email;
 
-    public contacte(String nom, String cognom, String tel, String email) {
+    public Contacte(String nom, String cognom, String tel, String email) {
         this.id = idcontador++;
         this.nom = nom;
         this.cognom = cognom;
         this.tel = tel;
         this.email = email;
-        guardacontact();
     }
 
-    public contacte(int id, String nom, String cognom, String tel, String email, boolean saveFile) {
+    // Construc pa archivos
+    public Contacte(int id, String nom, String cognom, String tel, String email) {
         this.id = id;
         this.nom = nom;
         this.cognom = cognom;
         this.tel = tel;
         this.email = email;
-        if (saveFile) {
-            guardacontact();
-        }
     }
+
 
     public static void resetid() {
         idcontador = 1;
@@ -41,29 +35,6 @@ public class contacte {
         }
     }
 
-
-    private void guardacontact() {
-        String datos = id + "\n" + nom + "\n" + cognom + "\n" + tel + "\n" + email;
-        String fileName = "Contacto - " + nom + ".txt";
-        try {
-            FileWriter file = new FileWriter(fileName);
-            file.write(datos);
-            file.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-
-
-
-    public void borracontact() {
-        String fileName = "Contacto - " + nom + ".txt";
-        File file = new File(fileName);
-        if (file.exists()) {
-            file.delete();
-        }
-    }
     public int getId() {
         return id;
     }
