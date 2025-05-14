@@ -1,5 +1,0 @@
-ID: 1
-Nom: da
-Cognom: ca
-Telefono12211212
-Email: 12121

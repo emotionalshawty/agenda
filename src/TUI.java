@@ -1,9 +1,9 @@
 import java.util.Scanner;
 
-public class tui {
+public class TUI {
     Scanner sc = new Scanner(System.in);
 
-    public tui() {
+    public TUI() {
 
     }
 
@@ -158,7 +158,7 @@ public class tui {
 
 
     public String eliminat() {
-        return "S'ha esborraty el contacte";
+        return "S'ha esborraty el contacte ";
     }
 
     public String llistat() {

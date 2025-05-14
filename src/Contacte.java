@@ -1,7 +1,4 @@
-import java.io.FileWriter;
-import java.io.IOException;
-
-public class contacte {
+public class Contacte {
     static int idcontador = 1;
     int id;
     String nom;
@@ -9,27 +6,35 @@ public class contacte {
     String tel;
     String email;
 
-    public contacte(String nom, String cognom, String tel, String email) {
+    public Contacte(String nom, String cognom, String tel, String email) {
         this.id = idcontador++;
         this.nom = nom;
         this.cognom = cognom;
         this.tel = tel;
         this.email = email;
-        String datos = "ID: "+ id +
-                " Nom: "+ nom +
-                " Cognom: "+cognom+
-                " Telefono: "+tel+
-                " Email: "+email;
-        String id = "Contacto_" +nom+".txt";
-        try {
-            FileWriter file = new FileWriter(id);
-            file.write(datos);
-            file.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
     }
+
+    // Construc pa archivos
+    public Contacte(int id, String nom, String cognom, String tel, String email) {
+        this.id = id;
+        this.nom = nom;
+        this.cognom = cognom;
+        this.tel = tel;
+        this.email = email;
+    }
+
+
+    public static void resetid() {
+        idcontador = 1;
+    }
+
+
+    public static void actuid(int loadedId) {
+        if (loadedId >= idcontador) {
+            idcontador = loadedId + 1;
+        }
+    }
+
     public int getId() {
         return id;
     }
