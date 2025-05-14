@@ -1,11 +1,11 @@
 import java.util.HashMap;
 
-public class Control {
+public class MemoryController {
 
     private HashMap<Integer, Contacte> Contactes = new HashMap<>();
     private FileController fileController;
 
-    public Control() {
+    public MemoryController() {
         fileController = new FileController();
         Contactes = fileController.loadAllContacts();
     }
@@ -28,19 +28,28 @@ public class Control {
             return Contactes.get(buscarid);
         }
 
-        // si se utiliza otras cosas que no sea id
-        for (Contacte trobat : Contactes.values()) {
-
-            boolean trobatContacte = switch (combuscar) {
-                case 1 -> trobat.getNom().equalsIgnoreCase(busca);
-                case 2 -> trobat.getCognom().equalsIgnoreCase(busca);
-                case 3 -> trobat.getTel().equals(busca);
-                case 4 -> trobat.getEmail().equalsIgnoreCase(busca);
-                default -> false;
-            };
-
-            if (trobatContacte) {
-                return trobat;
+        for (Contacte c : Contactes.values()) {
+            switch (combuscar) {
+                case 1:
+                    if (c.getNom().equalsIgnoreCase(busca)) {
+                        return c;
+                    }
+                    break;
+                case 2:
+                    if (c.getCognom().equalsIgnoreCase(busca)) {
+                        return c;
+                    }
+                    break;
+                case 3:
+                    if (c.getTel().equalsIgnoreCase(busca)) {
+                        return c;
+                    }
+                    break;
+                case 4:
+                    if (c.getEmail().equalsIgnoreCase(busca)) {
+                        return c;
+                    }
+                    break;
             }
         }
         return null;
@@ -78,9 +87,5 @@ public class Control {
             return true;
         }
         return false;
-    }
-
-    public HashMap<Integer, contacte> getContactes() {
-        return contactes;
     }
 }
