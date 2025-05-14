@@ -1,31 +1,21 @@
-
-import java.util.ArrayList;
-
+import java.util.HashMap;
 
 public class Control {
-    private ArrayList<contacte> Contactes = new ArrayList<>();
-
-
-
+    private HashMap<Integer, contacte> contactes;
 
     public Control() {
-
+        contactes = new HashMap<>();
     }
 
-    // menu de contactos
-    public ArrayList<contacte> getContactes() {
-        return Contactes;
-    }
+
 
     public void crearcontacte(String nom, String cognom, String tel, String email) {
         contacte contactenou = new contacte(nom, cognom, tel, email);
-        Contactes.add(contactenou);
-
-
+        contactes.put(contactenou.getId(), contactenou);
     }
 
     public contacte buscarcontacte(int combuscar, String busca, int buscarid) {
-        for (contacte trobat : Contactes) {
+        for (contacte trobat : contactes.values()) {
             boolean trobatContacte = switch (combuscar) {
                 case 1 -> trobat.getNom().equalsIgnoreCase(busca);
                 case 2 -> trobat.getCognom().equalsIgnoreCase(busca);
@@ -59,20 +49,15 @@ public class Control {
     }
 
     public boolean elimcontacte(int combuscar, String supr, int buscarid) {
-        for (contacte c : Contactes) {
-            boolean contactetrobat = switch (combuscar) {
-                case 1 -> c.getNom().equalsIgnoreCase(supr);
-                case 2 -> c.getCognom().equalsIgnoreCase(supr);
-                case 3 -> c.getTel().equals(supr);
-                case 4 -> c.getEmail().equalsIgnoreCase(supr);
-                case 5 -> c.getId() == buscarid;
-                default -> false;
-            };
-            if (contactetrobat) {
-                Contactes.remove(c);
-                return true;
-            }
+        contacte c = buscarcontacte(combuscar, supr, buscarid);
+        if (c != null) {
+            contactes.remove(c.getId());
+            return true;
         }
         return false;
+    }
+
+    public HashMap<Integer, contacte> getContactes() {
+        return contactes;
     }
 }
