@@ -6,9 +6,18 @@ import java.io.IOException;
 import java.util.HashMap;
 
 public class FileController {
+    private static final String dircontactes = "contactes";
+
+    public FileController() {
+        // Create contacts folder if it doesn't exist
+        File folder = new File(dircontactes);
+        if (!folder.exists()) {
+            folder.mkdir();
+        }
+    }
 
     private String nombrearch(String name) {
-        return "Contacto de " + name + ".txt";
+        return dircontactes + File.separator + "Contacto de " + name + ".txt";
     }
 
     public void saveContact(Contacte contact) {
@@ -37,10 +46,16 @@ public class FileController {
             file.delete();
         }
     }
-
+    // esto carga los contactos
     public HashMap<Integer, Contacte> loadAllContacts() {
         HashMap<Integer, Contacte> contacts = new HashMap<>();
-        File folder = new File(".");
+        File folder = new File(dircontactes);
+
+        // si no hay un dir no muestra nada
+        if (!folder.exists() || !folder.isDirectory()) {
+            return contacts;
+        }
+
         File[] files = folder.listFiles((dir, name) -> name.startsWith("Contacto de ") && name.endsWith(".txt"));
 
         Contacte.resetid();
