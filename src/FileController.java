@@ -9,7 +9,7 @@ public class FileController {
     private static final String dircontactes = "contactes";
 
     public FileController() {
-        // Create contacts folder if it doesn't exist
+        // Crea dir de contactes si no hay
         File folder = new File(dircontactes);
         if (!folder.exists()) {
             folder.mkdir();
