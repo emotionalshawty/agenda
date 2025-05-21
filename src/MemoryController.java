@@ -1,35 +1,29 @@
 import java.util.HashMap;
 
-public class MemoryController {
-
-    private HashMap<Integer, Contacte> Contactes = new HashMap<>();
+public class MemoryController implements Controller {
+    private HashMap<Integer, Contacte> contactes;
     private FileController fileController;
 
-    // controlador memoria, lo carga todo
+    // contructor que inicializa el controlador de todoas los arch
     public MemoryController() {
         fileController = new FileController();
-        Contactes = fileController.loadAllContacts();
+        contactes = fileController.loadAllContacts();
     }
 
-    // menu de contactos
-    public HashMap<Integer, Contacte> getContactes() {
-        return Contactes;
-    }
+    // Crea un nou contacte i el guarda
 
     public void crearcontacte(String nom, String cognom, String tel, String email) {
-        Contacte contactenou = new Contacte(nom, cognom, tel, email);
-        // utilizar id contactos en hasmpa
-        Contactes.put(contactenou.getId(), contactenou);
-        fileController.saveContact(contactenou);
+        Contacte c = new Contacte(nom, cognom, tel, email);
+        contactes.put(c.getId(), c);
+        fileController.saveContact(c);
     }
 
     public Contacte buscarcontacte(int combuscar, String busca, int buscarid) {
-        // buscar con id
-        if (combuscar == 5) {
-            return Contactes.get(buscarid);
+        if (buscarid > 0 && combuscar == 5) {
+            return contactes.get(buscarid);
         }
-        // si no buscamos con id
-        for (Contacte c : Contactes.values()) {
+
+        for (Contacte c : contactes.values()) {
             switch (combuscar) {
                 case 1:  // busca con nombre
                     if (c.getNom().equalsIgnoreCase(busca)) {
@@ -57,37 +51,51 @@ public class MemoryController {
         return null;
     }
 
-    public boolean actucontact(int combuscar, String actu, int buscarid, int quin, String nouValor) {
-        Contacte c = buscarcontacte(combuscar, actu, buscarid);
+    public void actucontact(int combuscar, String busca, int buscarid, int quin, String nouValor) {
+        Contacte c = buscarcontacte(combuscar, busca, buscarid);
+        if (c == null) return;
 
+        String oldNom = c.getNom();
+
+        switch (quin) {
+            case 1:
+                c.setNom(nouValor);
+                break;
+            case 2:
+                c.setCognom(nouValor);
+                break;
+            case 3:
+                c.setTel(nouValor);
+                break;
+            case 4:
+                c.setEmail(nouValor);
+                break;
+        }
+
+        // Si canvia el nom, borra el arch antic
+        if (quin == 1) {
+            fileController.esborcontacte(oldNom);
+        }
+
+        // Guarda el contacte actualitzat
+        fileController.saveContact(c);
+    }
+
+
+
+    public boolean elimcontacte(int combuscar, String busca, int buscarid) {
+        Contacte c = buscarcontacte(combuscar, busca, buscarid);
         if (c != null) {
-            // acordarse del nombre viejo para que funcione bien
-            String oldNom = c.getNom();
-
-            switch (quin) {
-                case 1 -> c.setNom(nouValor);
-                case 2 -> c.setCognom(nouValor);
-                case 3 -> c.setTel(nouValor);
-                case 4 -> c.setEmail(nouValor);
-                default -> { return false; }
-            }
-
+            fileController.esborcontacte(c.getNom());
+            contactes.remove(c.getId());
             return true;
         }
         return false;
     }
 
-    public boolean elimcontacte(int combuscar, String supr, int buscarid) {
 
-        Contacte quinborrar = buscarcontacte(combuscar, supr, buscarid);
 
-        if (quinborrar != null) {
-             fileController.esborcontacte(quinborrar.getNom());
-            Contactes.remove(quinborrar.getId());
-
-       
-            return true;
-        }
-        return false;
+    public HashMap<Integer, Contacte> getContactes() {
+        return contactes;
     }
 }
