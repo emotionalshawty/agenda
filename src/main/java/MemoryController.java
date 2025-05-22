@@ -18,7 +18,7 @@ public class MemoryController implements Controller {
     public void crearcontacte(String nom, String cognom, String tel, String email) {
         Contacte c = new Contacte(nom, cognom, tel, email);
 
-        // Utilitzem reflection per assignar l'ID manualment
+        // reflection para poner lo de la id
         try {
             Field idField = Contacte.class.getDeclaredField("id");
             idField.setAccessible(true);
@@ -42,7 +42,7 @@ public class MemoryController implements Controller {
         }
         return maxId + 1;
     }
-
+        // para busscar los contactos
     public Contacte buscarcontacte(int combuscar, String busca, int buscarid) {
         if (buscarid > 0 && combuscar == 5) {
             return contactes.get(buscarid);
@@ -75,7 +75,7 @@ public class MemoryController implements Controller {
         // no hay nada
         return null;
     }
-
+        // para actu los contactos
     public void actucontact(int combuscar, String busca, int buscarid, int quin, String nouValor) {
         Contacte c = buscarcontacte(combuscar, busca, buscarid);
         if (c == null) return;
@@ -107,7 +107,7 @@ public class MemoryController implements Controller {
     }
 
 
-
+        // BORRA EL CONTACTO
     public boolean elimcontacte(int combuscar, String busca, int buscarid) {
         Contacte c = buscarcontacte(combuscar, busca, buscarid);
         if (c != null) {
