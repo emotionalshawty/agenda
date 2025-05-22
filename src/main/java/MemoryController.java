@@ -1,3 +1,6 @@
+package main.java;
+
+import java.lang.reflect.Field;
 import java.util.HashMap;
 
 public class MemoryController implements Controller {
@@ -14,10 +17,32 @@ public class MemoryController implements Controller {
 
     public void crearcontacte(String nom, String cognom, String tel, String email) {
         Contacte c = new Contacte(nom, cognom, tel, email);
+
+        // reflection para poner lo de la id
+        try {
+            Field idField = Contacte.class.getDeclaredField("id");
+            idField.setAccessible(true);
+            int nextId = getNextId();
+            idField.set(c, nextId);
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            System.err.println("HI Hahagut un error al posar un id amb reflection " + e.getMessage());
+        }
+
         contactes.put(c.getId(), c);
         fileController.saveContact(c);
     }
 
+    // para crear ids
+    private int getNextId() {
+        int maxId = 0;
+        for (Integer id : contactes.keySet()) {
+            if (id > maxId) {
+                maxId = id;
+            }
+        }
+        return maxId + 1;
+    }
+        // para busscar los contactos
     public Contacte buscarcontacte(int combuscar, String busca, int buscarid) {
         if (buscarid > 0 && combuscar == 5) {
             return contactes.get(buscarid);
@@ -50,7 +75,7 @@ public class MemoryController implements Controller {
         // no hay nada
         return null;
     }
-
+        // para actu los contactos
     public void actucontact(int combuscar, String busca, int buscarid, int quin, String nouValor) {
         Contacte c = buscarcontacte(combuscar, busca, buscarid);
         if (c == null) return;
@@ -82,7 +107,7 @@ public class MemoryController implements Controller {
     }
 
 
-
+        // BORRA EL CONTACTO
     public boolean elimcontacte(int combuscar, String busca, int buscarid) {
         Contacte c = buscarcontacte(combuscar, busca, buscarid);
         if (c != null) {

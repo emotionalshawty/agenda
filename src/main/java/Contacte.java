@@ -1,13 +1,31 @@
+package main.java;
+
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "contactes")
+
 public class Contacte {
     static int idcontador = 1;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     int id;
+
+    @Column(name = "nom")
     String nom;
+
+    @Column(name = "cognom")
     String cognom;
+
+    @Column(name = "telefon")
     String tel;
+
+    @Column(name = "email")
     String email;
 
     public Contacte(String nom, String cognom, String tel, String email) {
-        this.id = idcontador++;
         this.nom = nom;
         this.cognom = cognom;
         this.tel = tel;
@@ -23,6 +41,9 @@ public class Contacte {
         this.email = email;
     }
 
+    // constructor para el hibernat
+    public Contacte() {
+    }
 
     public static void resetid() {
         idcontador = 1;
@@ -38,6 +59,11 @@ public class Contacte {
     public int getId() {
         return id;
     }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public String toString(){
         return "ID: "+id+" Nom: "+nom+ " Cognom: "+cognom+" Telèfon: "+tel+" Email: "+email;
     }
