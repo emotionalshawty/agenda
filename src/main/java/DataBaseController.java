@@ -36,93 +36,136 @@ public class DataBaseController implements Controller, AutoCloseable {
 
 
     public void crearcontacte(String nom, String cognom, String tel, String email) {
-        Contacte c = new Contacte(nom, cognom, tel, email);
-        Transaction transaction = this.session.beginTransaction();
-        this.session.persist(c);
-        transaction.commit();
+        Transaction transaction = null;
+        try {
+            Contacte c = new Contacte(nom, cognom, tel, email);
+            transaction = this.session.beginTransaction();
+            this.session.persist(c);
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null && transaction.isActive()) {
+                transaction.rollback();
+            }
+            System.err.println("Error al crear el contacte: " + e.getMessage());
+            throw new RuntimeException("No s'ha pogut crear el contacte", e);
+        }
     }
 
     public Contacte buscarcontacte(int combuscar, String busca, int buscarid) {
-        if (buscarid > 0 && combuscar == 5) {
-            return this.session.get(Contacte.class, buscarid);
-        }
+        try {
+            if (buscarid > 0 && combuscar == 5) {
+                return this.session.get(Contacte.class, buscarid);
+            }
 
-        switch (combuscar) {
-            case 1: // Nom
-                return cercarPrimerPerCamp("nom", busca);
-            case 2: // Cognom
-                return cercarPrimerPerCamp("cognom", busca);
-            case 3: // Telèfon
-                return cercarPrimerPerCamp("tel", busca);
-            case 4: // Email
-                return cercarPrimerPerCamp("email", busca);
-            default:
-                return null;
+            switch (combuscar) {
+                case 1:
+                    return cercarPrimerPerCamp("nom", busca);
+                case 2:
+                    return cercarPrimerPerCamp("cognom", busca);
+                case 3:
+                    return cercarPrimerPerCamp("tel", busca);
+                case 4:
+                    return cercarPrimerPerCamp("email", busca);
+                default:
+                    return null;
+            }
+        } catch (Exception e) {
+            System.err.println("Error al buscar contacte: " + e.getMessage());
+            return null;
         }
     }
 
     public void actucontact(int combuscar, String busca, int buscarid, int quin, String nouValor) {
-        Contacte c = buscarcontacte(combuscar, busca, buscarid);
-        if (c == null) return;
+        Transaction transaction = null;
+        try {
+            Contacte c = buscarcontacte(combuscar, busca, buscarid);
+            if (c == null) return;
 
-        Transaction transaction = this.session.beginTransaction();
+            transaction = this.session.beginTransaction();
 
-        switch (quin) {
-            case 1:
-                c.setNom(nouValor);
-                break;
-            case 2:
-                c.setCognom(nouValor);
-                break;
-            case 3:
-                c.setTel(nouValor);
-                break;
-            case 4:
-                c.setEmail(nouValor);
-                break;
+            switch (quin) {
+                case 1:
+                    c.setNom(nouValor);
+                    break;
+                case 2:
+                    c.setCognom(nouValor);
+                    break;
+                case 3:
+                    c.setTel(nouValor);
+                    break;
+                case 4:
+                    c.setEmail(nouValor);
+                    break;
+            }
+
+            this.session.merge(c);
+            transaction.commit();
+            System.out.println("S'ha actualitzat el contacte");
+        } catch (Exception e) {
+            if (transaction != null && transaction.isActive()) {
+                transaction.rollback();
+            }
+            System.err.println("Hi ha hagut un erorr al actualitzar el contacte " + e.getMessage());
         }
-
-        this.session.merge(c);
-        transaction.commit();
     }
 
     public boolean elimcontacte(int combuscar, String busca, int buscarid) {
-        Contacte c = buscarcontacte(combuscar, busca, buscarid);
-        if (c != null) {
-            Transaction transaction = this.session.beginTransaction();
-            this.session.remove(c);
-            transaction.commit();
-            return true;
+        Transaction transaction = null;
+        try {
+            Contacte c = buscarcontacte(combuscar, busca, buscarid);
+            if (c != null) {
+                transaction = this.session.beginTransaction();
+                this.session.remove(c);
+                transaction.commit();
+                return true;
+            }
+            return false;
+        } catch (Exception e) {
+            if (transaction != null && transaction.isActive()) {
+                transaction.rollback();
+            }
+            System.err.println("Hi ha hagut un error en eliminar el contacte " + e.getMessage());
+            return false;
         }
-        return false;
     }
 
     public HashMap<Integer, Contacte> getContactes() {
         HashMap<Integer, Contacte> contactes = new HashMap<>();
+        try {
+            this.session.clear(); // Clear session cache to get fresh data
 
-        CriteriaQuery<Contacte> cr = this.criteriaBuilder.createQuery(Contacte.class);
-        Root<Contacte> root = cr.from(Contacte.class);
+            CriteriaQuery<Contacte> cr = this.criteriaBuilder.createQuery(Contacte.class);
+            Root<Contacte> root = cr.from(Contacte.class);
 
-        List<Contacte> llista = this.session.createQuery(cr.select(root)).getResultList();
+            List<Contacte> llista = this.session.createQuery(cr.select(root)).getResultList();
 
-        for (Contacte c : llista) {
-            contactes.put(c.getId(), c);
+            for (Contacte c : llista) {
+                contactes.put(c.getId(), c);
+            }
+
+            System.out.println("S'han carregat " + contactes.size() + " contactes de la base de dades");
+        } catch (Exception e) {
+            System.err.println("Error al obtenir contactes: " + e.getMessage());
         }
-
         return contactes;
     }
 
     // Mètode auxiliar
 
     private Contacte cercarPrimerPerCamp(String camp, String valor) {
-        CriteriaQuery<Contacte> cr = this.criteriaBuilder.createQuery(Contacte.class);
-        Root<Contacte> root = cr.from(Contacte.class);
+        try {
+            CriteriaQuery<Contacte> cr = this.criteriaBuilder.createQuery(Contacte.class);
+            Root<Contacte> root = cr.from(Contacte.class);
 
-        cr.select(root).where(
-            this.criteriaBuilder.equal(root.get(camp), valor)
-        );
+            cr.select(root).where(
+                this.criteriaBuilder.equal(root.get(camp), valor)
+            );
 
-        List<Contacte> resultats = this.session.createQuery(cr).setMaxResults(1).getResultList();
-        return resultats.isEmpty() ? null : resultats.get(0);
+            List<Contacte> resultats = this.session.createQuery(cr).setMaxResults(1).getResultList();
+            return resultats.isEmpty() ? null : resultats.get(0);
+        } catch (Exception e) {
+            System.err.println("Error al cercar per camp " + camp + ": " + e.getMessage());
+            return null;
+        }
     }
 }
