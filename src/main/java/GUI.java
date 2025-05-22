@@ -4,7 +4,6 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
-
 import static javax.swing.JOptionPane.showMessageDialog;
 
 public class GUI {

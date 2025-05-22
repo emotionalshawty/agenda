@@ -156,7 +156,7 @@ public class DataBaseController implements Controller, AutoCloseable {
     private List<Contacte> cercarContactesPerCamp(String camp, String valor) {
         CriteriaQuery<Contacte> cr = this.criteriaBuilder.createQuery(Contacte.class);
         Root<Contacte> root = cr.from(Contacte.class);
-        cr.select(root).where(this.criteriaBuilder.equal(root.get(camp), valor));
+        cr.select(root).where(this.criteriaBuilder.like(root.get(camp), "%" + valor + "%"));
         return this.session.createQuery(cr).getResultList();
     }
 }
