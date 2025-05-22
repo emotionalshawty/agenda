@@ -7,7 +7,7 @@
     <session-factory>
         <!-- Database connection properties -->
         <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
-        <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/agenda</property>
+        <property name="hibernate.connection.url">jdbc:postgresql://192.168.237.255:5432/agenda</property>
         <property name="hibernate.connection.username">postgres</property>
         <property name="hibernate.connection.password">postgres</property>
 
@@ -20,7 +20,7 @@
         <property name="hibernate.hbm2ddl.auto">update</property>
 
         <!-- Mapping files or annotated classes -->
-        <mapping class="Contacte"/>
+        <mapping class="main.java.Contacte"/>
 
     </session-factory>
 </hibernate-configuration>
