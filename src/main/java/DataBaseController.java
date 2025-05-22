@@ -57,18 +57,19 @@ public class DataBaseController implements Controller, AutoCloseable {
                 return this.session.get(Contacte.class, buscarid);
             }
 
+            String camp = null;
             switch (combuscar) {
-                case 1:
-                    return cercarPrimerPerCamp("nom", busca);
-                case 2:
-                    return cercarPrimerPerCamp("cognom", busca);
-                case 3:
-                    return cercarPrimerPerCamp("tel", busca);
-                case 4:
-                    return cercarPrimerPerCamp("email", busca);
-                default:
-                    return null;
+                case 1: camp = "nom"; break;
+                case 2: camp = "cognom"; break;
+                case 3: camp = "tel"; break;
+                case 4: camp = "email"; break;
+                default: return null;
             }
+            if (camp != null) {
+                List<Contacte> resultats = cercarContactesPerCamp(camp, busca);
+                return resultats.isEmpty() ? null : resultats.get(0);
+            }
+            return null;
         } catch (Exception e) {
             System.err.println("Error al buscar contacte: " + e.getMessage());
             return null;
@@ -152,20 +153,10 @@ public class DataBaseController implements Controller, AutoCloseable {
 
     // Mètode auxiliar
 
-    private Contacte cercarPrimerPerCamp(String camp, String valor) {
-        try {
-            CriteriaQuery<Contacte> cr = this.criteriaBuilder.createQuery(Contacte.class);
-            Root<Contacte> root = cr.from(Contacte.class);
-
-            cr.select(root).where(
-                this.criteriaBuilder.equal(root.get(camp), valor)
-            );
-
-            List<Contacte> resultats = this.session.createQuery(cr).setMaxResults(1).getResultList();
-            return resultats.isEmpty() ? null : resultats.get(0);
-        } catch (Exception e) {
-            System.err.println("Error al cercar per camp " + camp + ": " + e.getMessage());
-            return null;
-        }
+    private List<Contacte> cercarContactesPerCamp(String camp, String valor) {
+        CriteriaQuery<Contacte> cr = this.criteriaBuilder.createQuery(Contacte.class);
+        Root<Contacte> root = cr.from(Contacte.class);
+        cr.select(root).where(this.criteriaBuilder.equal(root.get(camp), valor));
+        return this.session.createQuery(cr).getResultList();
     }
 }
