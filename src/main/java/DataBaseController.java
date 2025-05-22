@@ -144,7 +144,7 @@ public class DataBaseController implements Controller, AutoCloseable {
                 contactes.put(c.getId(), c);
             }
 
-            System.out.println("S'han carregat " + contactes.size() + " contactes de la base de dades");
+
         } catch (Exception e) {
             System.err.println("Error al obtenir contactes: " + e.getMessage());
         }
