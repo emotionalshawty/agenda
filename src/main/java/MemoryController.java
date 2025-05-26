@@ -126,25 +126,25 @@ public class MemoryController implements Controller {
 
     // Prova unitaria
     public static void main(String[] args) {
-        MemoryController mc = new MemoryController();
+        MemoryController test = new MemoryController();
 
         // Prova de crearcontacte
-        mc.crearcontacte("Frodo", "Baggins", "3333333", "bolson@anillo.com");
-        assert mc.getContactes().size() == 1 : "Deberia de guardarse el contacto del portador del anillo";
+        test.crearcontacte("Frodo", "Baggins", "3333333", "bolson@anillo.com");
+        assert test.getContactes().size() == 1 : "Deberia de guardarse el contacto del portador del anillo";
 
         // Busca contacte con combre
-        Contacte c = mc.buscarcontacte(1, "Frodo", -1);
+        Contacte c = test.buscarcontacte(1, "Frodo", -1);
         assert c != null && c.getNom().equals("Frodo") : "Deberia de encontrar a frodo";
 
         // Busca el nombre de frodo y le cambia el apellido
-        mc.actucontact(1, "Frodo", -1, 2, "Baggins");
-        c = mc.buscarcontacte(1, "Frodo", -1);
-        assert c != null && c.getCognom().equals("Bolson") : "El apelliudo devberia de ser su apodo ahora ;) ";
+        test.actucontact(1, "Frodo", -1, 2, "Bolson");
+        c = test.buscarcontacte(1, "Frodo", -1);
+        assert c != null && c.getCognom().equals("Bolson") : "Deberia de cambiarse su apellido a su apodo";
 
         // Frodo ha muerto, hayq eue liminarle el contacto :(
-        boolean deleted = mc.elimcontacte(1, "Frodo", -1);
+        boolean deleted = test.elimcontacte(1, "Frodo", -1);
         assert deleted : "El contacto de frodo se ha borrado";
-        assert mc.getContactes().isEmpty() : "LOs contactos deberian de estar vacios";
+        assert test.getContactes().isEmpty() : "LOs contactos deberian de estar vacios";
 
         System.out.println("Se ha pasado todas las pruebvas");
     }
