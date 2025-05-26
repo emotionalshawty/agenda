@@ -143,7 +143,7 @@ public class MemoryController implements Controller {
 
         // Frodo ha muerto, hayq eue liminarle el contacto :(
         boolean deleted = test.elimcontacte(1, "Frodo", -1);
-        assert deleted : "El contacto de frodo se ha borrado";
+        assert deleted : "Se ha borrado el contacto de Frodo";
         assert test.getContactes().isEmpty() : "LOs contactos deberian de estar vacios";
 
         System.out.println("Se ha pasado todas las pruebvas");
