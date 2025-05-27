@@ -42,7 +42,8 @@ public class MemoryController implements Controller {
         }
         return maxId + 1;
     }
-        // para busscar los contactos
+
+    // para busscar los contactos
     public Contacte buscarcontacte(int combuscar, String busca, int buscarid) {
         if (buscarid > 0 && combuscar == 5) {
             return contactes.get(buscarid);
@@ -75,7 +76,8 @@ public class MemoryController implements Controller {
         // no hay nada
         return null;
     }
-        // para actu los contactos
+
+    // para actu los contactos
     public void actucontact(int combuscar, String busca, int buscarid, int quin, String nouValor) {
         Contacte c = buscarcontacte(combuscar, busca, buscarid);
         if (c == null) return;
@@ -107,7 +109,7 @@ public class MemoryController implements Controller {
     }
 
 
-        // BORRA EL CONTACTO
+    // BORRA EL CONTACTO
     public boolean elimcontacte(int combuscar, String busca, int buscarid) {
         Contacte c = buscarcontacte(combuscar, busca, buscarid);
         if (c != null) {
@@ -117,7 +119,6 @@ public class MemoryController implements Controller {
         }
         return false;
     }
-
 
 
     public HashMap<Integer, Contacte> getContactes() {
@@ -134,7 +135,7 @@ public class MemoryController implements Controller {
 
         // Busca contacte con combre
         Contacte c = test.buscarcontacte(1, "Frodo", -1);
-        assert c != null && c.getNom().equals("Frodo") : "Deberia de encontrar a frodo";
+        assert c != null && c.getNom().equals("Elson") : "Deberia de encontrar a frodo";
 
         // Busca el nombre de frodo y le cambia el apellido
         test.actucontact(1, "Frodo", -1, 2, "Bolson");
@@ -147,5 +148,9 @@ public class MemoryController implements Controller {
         assert test.getContactes().isEmpty() : "LOs contactos deberian de estar vacios";
 
         System.out.println("Se ha pasado todas las pruebvas");
+        // ahora gollum ha matado a frodo y se ha quedado con el anillo
     }
+
+
+
 }
