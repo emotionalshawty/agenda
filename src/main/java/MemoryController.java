@@ -146,7 +146,7 @@ public class MemoryController implements Controller {
         // Buscar por nombre incorrecto, debe fallar
         System.out.println("Buscando a Enrique (no existe)...");
         Contacte c = test.buscarcontacte(1, "Enrique", -1);
-        System.out.println("Resultado de la búsqueda: " + c);
+        System.out.println("Resultado de la busqueda: " + c);
         assert c == null : "No deberruia de encontrar ningún contacto llamado Enrique";
 
         // Buscar por nombre correcto, debe encontrar a Frodo
@@ -165,6 +165,8 @@ public class MemoryController implements Controller {
         System.out.println("Eliminando a Frodo...");
         boolean deleted = test.elimcontacte(1, "Frodo", -1); // Se elimina buscando por Frodo
         assert deleted : "Se ha borrado el contacto de Frodo";
+        System.out.println("ahora la lista de contactos es: "+ test.getContactes());
+
         assert test.getContactes().isEmpty() : "LOs contactos deberian de estar vacios. Tamaño actual: " + test.getContactes().size();
 
         System.out.println("Se ha pasado todas las pruebas");
