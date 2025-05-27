@@ -1,0 +1,38 @@
+// prebas unitarias
+    public static void main(String[] args) {
+
+        MemoryController test = new MemoryController();
+
+
+        if (test.contactes == null) {
+            test.contactes = new HashMap<>();
+        } else {
+
+            System.out.println("Advertencia: Las pruebas pueden verse afectadas por contactos preexistentes cargados por FileController.");
+        }
+
+
+
+        System.out.println("Creando contacto Frodo...");
+        test.crearcontacte("Frodo", "Baggins", "3333333", "bolson@anillo.com");
+        assert test.getContactes().size() == 1 : "Deberia de guardarse el contacto del portador del anillo. Tamaño actual: " + test.getContactes().size();
+
+
+        System.out.println("Buscando a Frodo...");
+        Contacte c = test.buscarcontacte(1, "Frodo", -1);
+        assert c != null && c.getNom().equals("Frodo") : "Deberia de encontrar a frodo";
+
+
+        System.out.println("Actualizando apellido de Frodo a Bolson...");
+        test.actucontact(1, "Frodo", -1, 2, "Bolson");
+        c = test.buscarcontacte(1, "Frodo", -1); // Se busca por el nombre original Frodo
+        assert c != null && c.getCognom().equals("Bolson") : "Deberia de cambiarse su apellido a su apodo. Apellido actual: " + (c != null ? c.getCognom() : "null");
+
+        // Frodo ha muerto, hayq eue liminarle el contacto :(
+        System.out.println("Eliminando a Frodo...");
+        boolean deleted = test.elimcontacte(1, "Frodo", -1); // Se elimina buscando por Frodo
+        assert deleted : "Se ha borrado el contacto de Frodo";
+        assert test.getContactes().isEmpty() : "LOs contactos deberian de estar vacios. Tamaño actual: " + test.getContactes().size();
+
+        System.out.println("Se ha pasado todas las pruebas");
+    }
